@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">shaikh Sha3ban</string>
+    <string name="title_advice">advice</string>
+    <string name="title_attendance">attendance</string>
+    <string name="title_community">community</string>>
+
+
+    <!--FMT as a notation for formatted string-->
+    <string name="FMT_welcomeBackMes">Hello %s, welcome back</string>
+
+    <string name="mes_passwordChanged">password changed successfully</string>
+    <string name="mes_done">done!</string>
+    <string name="mes_nameChanged">name changed successfully</string>
+    <string name="mes_resetEmailSent">The reset email is send successfully</string>
+    <string name="mes_signedInSuccess">Signed in successfully</string>
+    <string name="mes_signingUp_indicator">Signing up</string>
+
+    <string name="newPass">new password</string>
+    <string name="confirmPass">confirm password</string>
+
+
+    <!--strings for dialogs, d stands for dialog-->
+    <string name="dTitle_changePass">Changing password</string>
+    <string name="dTitle_editName">Edit name</string>
+    <string name="dAction_cancel">Cancel</string>
+    <string name="dAction_change">Change</string>
+    <string name="dAction_add">Add</string>
+    <string name="dAction_save">Save</string>
+    <string name="dAction_delete">Delete</string>
+
+    <!--dMes stands for dialog message-->
+    <string name="dMes_deleteGroup">This group and all its sessions will be permanently deleted</string>
+    <string name="dMes_connection">Turn of the internet connection + turn on airplane mode</string>
+
+    <string name="post_to_community">post to community</string>
+    <string name="login">login</string>
+    <string name="profile">profile</string>
+    <string name="by">by: </string>
+    <string name="change_password">Change password</string>
+    <string name="sign_out">Sign out</string>
+
+</resources>
