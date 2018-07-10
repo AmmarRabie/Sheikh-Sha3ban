@@ -3,6 +3,7 @@ package com.products.ammar.sheikhsha3ban.common.data.firebase;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,6 +20,7 @@ import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.Ad
 import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.PostEntry;
 import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.UserEntry;
 import com.products.ammar.sheikhsha3ban.common.data.model.AdviceModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.PostModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
 
@@ -34,6 +36,8 @@ import java.util.HashMap;
  * this class do the logic of querying data from firebase database
  */
 public class FirebaseRepository extends FirebaseRepoHelper {
+
+    private static final String TAG = "FirebaseRepository";
 
     private static FirebaseRepository INSTANCE = null;
 
@@ -87,7 +91,7 @@ public class FirebaseRepository extends FirebaseRepoHelper {
     }
 
     @Override
-    public void insertUser(final UserModel userModel, final byte[] profileImageBytes ,final Insert<Void> callback) {
+    public void insertUser(final UserModel userModel, final byte[] profileImageBytes, final Insert<Void> callback) {
         HashMap<String, String> values = new HashMap<>();
         values.put(UserEntry.KEY_EMAIL, userModel.getEmail());
         values.put(UserEntry.KEY_NAME, userModel.getName());
@@ -100,6 +104,7 @@ public class FirebaseRepository extends FirebaseRepoHelper {
                     return;
                 }
                 callback.onDataInserted(null);
+                getRateRef(userModel.getId()).setValue(zeros480);
                 if (profileImageBytes != null)
                     insertProfileImage();
             }
@@ -123,32 +128,32 @@ public class FirebaseRepository extends FirebaseRepoHelper {
                 .orderByChild(AdviceEntry.KEY_DATE)
                 .limitToFirst(5)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot advicesSnapshot) {
-                for (final DataSnapshot oneAdviceSnapshot : advicesSnapshot.getChildren()) {
-                    String creatorId = oneAdviceSnapshot.child(AdviceEntry.KEY_CREATOR).getValue(String.class);
-                    getUserRef(creatorId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot creatorSnapshot) {
-                            AdviceModel newAdvice = Serializer.advice(oneAdviceSnapshot, creatorSnapshot);
-                            advices.add(newAdvice);
-                            if (advices.size() == advicesSnapshot.getChildrenCount())
-                                callback.onDataFetched(advices);
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot advicesSnapshot) {
+                        for (final DataSnapshot oneAdviceSnapshot : advicesSnapshot.getChildren()) {
+                            String creatorId = oneAdviceSnapshot.child(AdviceEntry.KEY_CREATOR).getValue(String.class);
+                            getUserRef(creatorId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot creatorSnapshot) {
+                                    AdviceModel newAdvice = Serializer.advice(oneAdviceSnapshot, creatorSnapshot);
+                                    advices.add(newAdvice);
+                                    if (advices.size() == advicesSnapshot.getChildrenCount())
+                                        callback.onDataFetched(advices);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    callback.onError(databaseError.getMessage());
+                                }
+                            });
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            callback.onError(databaseError.getMessage());
-                        }
-                    });
-                }
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+                    }
+                });
     }
 
 
@@ -245,8 +250,99 @@ public class FirebaseRepository extends FirebaseRepoHelper {
         });
     }
 
-    @Override
-    public void forget(Listen listener) {
 
+    @Override
+    public void getUserRats(final String userId, final Get<EvaluationModel> callback) {
+        getRateRef(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String ratsStr = dataSnapshot.getValue(String.class);
+                int[][][] rats = parseRats(ratsStr);
+                callback.onDataFetched(new EvaluationModel(rats));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void updateUserRates(final String userId, final ArrayList<Integer> partsPos, final ArrayList<Integer> quartersPos, final ArrayList<Integer> typesPos, final ArrayList<Integer> newRats, final Update callback) {
+        int s1 = partsPos.size(), s2 = quartersPos.size(), s3 = typesPos.size(), s4 = newRats.size();
+        if (!(s1 == s2 && s2 == s3 && s3 == s4)) {
+            IllegalArgumentException e = new IllegalArgumentException("all Arrays should have the same size");
+            Log.e(TAG, "updateUserRates: ", e);
+            throw e;
+        }
+
+        getUserRats(userId, new Get<EvaluationModel>() {
+            @Override
+            public void onDataFetched(EvaluationModel data) {
+                int[][][] rats = data.getRats();
+                for (int i = 0; i < partsPos.size(); i++) {
+                    int partI = partsPos.get(i);
+                    int quarterI = quartersPos.get(i);
+                    int typeI = typesPos.get(i);
+
+                    validate(i, partI, quarterI, typeI);
+
+                    rats[partI][quarterI][typeI] = newRats.get(i);
+                }
+                String newRateValueStr = deparseRats(rats);
+                getRateRef(userId).setValue(newRateValueStr);
+                callback.onUpdateSuccess();
+            }
+
+            private void validate(int i, int partI, int quarterI, int typeI) {
+                if (!EvaluationModel.validateIndices(partI, quarterI, typeI)) {
+                    IllegalArgumentException e = new IllegalArgumentException(
+                            String.format("part {0}, quarter {1}, type {2} is invalid indexing",
+                                    partI, quarterI, typeI)
+                    );
+                    Log.e(TAG, "onDataFetched: ", e);
+                    throw e;
+                }
+                if (newRats.get(i) < 0 || newRats.get(i) > 9) {
+                    IllegalArgumentException e = new IllegalArgumentException("new rate is less than 0 or more than 9");
+                    Log.e(TAG, "updateUserRates: ", e);
+                    throw e;
+                }
+            }
+        });
+    }
+
+    @Override
+    synchronized public void updateUserRate(final String userId, final int partsPos, final int quarterPos, final int typePos, final int newRate, final Update callback) {
+        getUserRats(userId, new Get<EvaluationModel>() {
+            @Override
+            synchronized public void onDataFetched(EvaluationModel data) {
+                int[][][] rats = data.getRats();
+                validate(partsPos, quarterPos, typePos);
+
+                rats[partsPos][quarterPos][typePos] = newRate;
+
+                String newRateValueStr = deparseRats(rats);
+                getRateRef(userId).setValue(newRateValueStr);
+                if (callback != null) callback.onUpdateSuccess();
+            }
+
+            synchronized private void validate(int partI, int quarterI, int typeI) {
+                if (!EvaluationModel.validateIndices(partI, quarterI, typeI)) {
+                    IllegalArgumentException e = new IllegalArgumentException(
+                            String.format("part {0}, quarter {1}, type {2} is invalid indexing",
+                                    partI, quarterI, typeI)
+                    );
+                    Log.e(TAG, "onDataFetched: ", e);
+                    throw e;
+                }
+                if (newRate < 0 || newRate > 9) {
+                    IllegalArgumentException e = new IllegalArgumentException("new rate is less than 0 or more than 9");
+                    Log.e(TAG, "updateUserRates: ", e);
+                    throw e;
+                }
+            }
+        });
     }
 }

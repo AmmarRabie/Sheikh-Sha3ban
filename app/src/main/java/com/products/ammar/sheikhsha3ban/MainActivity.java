@@ -9,11 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.products.ammar.sheikhsha3ban.advice.AdviceFragment;
+import com.products.ammar.sheikhsha3ban.attendance.AttendanceActivity;
 import com.products.ammar.sheikhsha3ban.auth.LoginActivity;
 import com.products.ammar.sheikhsha3ban.common.util.ActivityUtils;
 import com.products.ammar.sheikhsha3ban.community.CommunityFragment;
-import com.products.ammar.sheikhsha3ban.profile.ProfileActivity;
 import com.products.ammar.sheikhsha3ban.evaluation.EvaluationFragment;
+import com.products.ammar.sheikhsha3ban.profile.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener {
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final String ADVICE_FRAG_TAG = "advice-frag";
     private static final String ATTENDANCE_FRAG_TAG = "attendance-frag";
     private static final String COMMUNITY_FRAG_TAG = "community-frag";
+    private static final String EVALUATION_FRAG_TAG = "evaluation-frag";
 
     private String selectedTag;
 
@@ -34,9 +36,9 @@ public class MainActivity extends AppCompatActivity implements
                 if (!selectedTag.equals(ADVICE_FRAG_TAG))
                     loadAdviceFrag();
                 return true;
-            case R.id.nav_attendance:
-                if (!selectedTag.equals(ATTENDANCE_FRAG_TAG))
-                    loadAttendanceFrag();
+            case R.id.nav_evaluation:
+                if (!selectedTag.equals(EVALUATION_FRAG_TAG))
+                    loadEvaluationFrag();
                 return true;
             case R.id.nav_community:
                 if (!selectedTag.equals(COMMUNITY_FRAG_TAG))
@@ -73,10 +75,15 @@ public class MainActivity extends AppCompatActivity implements
                 Intent profileActivity = new Intent(this, ProfileActivity.class);
                 startActivityForResult(profileActivity, INTENT_REQUEST_PROFILE);
                 return true;
+            case R.id.optionMain_attendance:
+                Intent attendanceActivity = new Intent(this, AttendanceActivity.class);
+                startActivity(attendanceActivity);
+                return true;
         }
+
+
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override
@@ -112,14 +119,14 @@ public class MainActivity extends AppCompatActivity implements
         selectedTag = ADVICE_FRAG_TAG;
     }
 
-    private void loadAttendanceFrag() {
+    private void loadEvaluationFrag() {
         removeAllFrags();
-        EvaluationFragment frag = ((EvaluationFragment) getSupportFragmentManager().findFragmentByTag(ATTENDANCE_FRAG_TAG));
+        EvaluationFragment frag = ((EvaluationFragment) getSupportFragmentManager().findFragmentByTag(EVALUATION_FRAG_TAG));
         if (frag == null) {
             frag = EvaluationFragment.newInstance();
         }
-        ActivityUtils.addFragmentToActivityByTag(getSupportFragmentManager(), frag, R.id.contentFrame, ATTENDANCE_FRAG_TAG);
-        selectedTag = ATTENDANCE_FRAG_TAG;
+        ActivityUtils.addFragmentToActivityByTag(getSupportFragmentManager(), frag, R.id.contentFrame, EVALUATION_FRAG_TAG);
+        selectedTag = EVALUATION_FRAG_TAG;
     }
 
     private void loadCommunityFrag() {
@@ -136,5 +143,6 @@ public class MainActivity extends AppCompatActivity implements
         ActivityUtils.removeFragmentToActivityByTag(getSupportFragmentManager(), ATTENDANCE_FRAG_TAG);
         ActivityUtils.removeFragmentToActivityByTag(getSupportFragmentManager(), COMMUNITY_FRAG_TAG);
         ActivityUtils.removeFragmentToActivityByTag(getSupportFragmentManager(), ADVICE_FRAG_TAG);
+        ActivityUtils.removeFragmentToActivityByTag(getSupportFragmentManager(), EVALUATION_FRAG_TAG);
     }
 }

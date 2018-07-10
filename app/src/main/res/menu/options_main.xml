@@ -5,4 +5,10 @@
         android:title="@string/profile"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/optionMain_attendance"
+        android:title="@string/attendance"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:showAsAction="never"/>
 </menu>

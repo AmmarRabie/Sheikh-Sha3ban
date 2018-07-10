@@ -1,6 +1,7 @@
 package com.products.ammar.sheikhsha3ban.common.data;
 
 import com.products.ammar.sheikhsha3ban.common.data.model.AdviceModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.PostModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
 
@@ -50,6 +51,20 @@ public interface DataService {
     void updateUserProfileImage(String userId, byte[] newImageBytes, final Update callback);
 
     void updateUserName(String userId, String newName, final Update callback);
+
+    void getUserRats(String userId, Get<EvaluationModel> callback);
+
+    void updateUserRates(String userId, ArrayList<Integer> partsPos,
+                        ArrayList<Integer> quartersPos,
+                        ArrayList<Integer> typesPos,
+                        ArrayList<Integer> newRates,
+                        Update callback);
+
+    void updateUserRate(String userId, int partsPos,
+                         int quarterPos,
+                         int typePos,
+                         int newRate,
+                         Update callback);
 
     /**
      * Remove notifying callbacks with changing. After this function is called by a given listener

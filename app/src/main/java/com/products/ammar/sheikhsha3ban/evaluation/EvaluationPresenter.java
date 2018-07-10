@@ -2,7 +2,6 @@ package com.products.ammar.sheikhsha3ban.evaluation;
 
 
 import com.products.ammar.sheikhsha3ban.common.auth.AuthService;
-import com.products.ammar.sheikhsha3ban.common.auth.AuthenticatedUser;
 import com.products.ammar.sheikhsha3ban.common.data.DataService;
 import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 
@@ -17,7 +16,6 @@ class EvaluationPresenter implements EvaluationContract.Actions {
 
     private AuthService mAuthService;
     private EvaluationContract.Views mView;
-    private AuthenticatedUser mCurrentUser;
 
     public EvaluationPresenter(AuthService authService, DataService dataSource, EvaluationContract.Views view) {
         this.mAuthService = authService;
@@ -29,19 +27,22 @@ class EvaluationPresenter implements EvaluationContract.Actions {
     @Override
     public void start() {
         // try to find the current user
-        mCurrentUser = mAuthService.getCurrentUser();
-
-        int[][][] rats = new int[30][8][2];
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 8; j++) {
-                for (int k = 0; k < 2; k++) {
-                    rats[i][j][k] = (i+1)*(j+1)*(k+1);
-                }
-
+        mDataSource.getUserRats(mAuthService.getCurrentUser().getUserId(), new DataService.Get<EvaluationModel>() {
+            @Override
+            public void onDataFetched(EvaluationModel data) {
+                mView.showRatings(data);
             }
-        }
-        EvaluationModel model = new EvaluationModel(rats);
-        mView.showRatings(model);
+        });
     }
 
+    @Override
+    public void updateRating(final int part, final int quarter, int newRateRemember, final int newRatePerformance) {
+        final String userId = mAuthService.getCurrentUser().getUserId();
+        mDataSource.updateUserRate(userId, part, quarter, EvaluationModel.REMEMBER_INDEX, newRateRemember, new DataService.Update() {
+            @Override
+            public void onUpdateSuccess() {
+                mDataSource.updateUserRate(userId, part, quarter, EvaluationModel.PERFORMANCE_INDEX, newRatePerformance, null);
+            }
+        });
+    }
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/editRatingDialog_rememberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="remembering"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <com.xw.repo.BubbleSeekBar
+        android:id="@+id/editRatingDialog_rememberRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bsb_auto_adjust_section_mark="true"
+        app:bsb_max="10"
+        app:bsb_min="1"
+        app:bsb_second_track_color="@color/colorAccent"
+        app:bsb_section_count="9"
+        app:bsb_section_text_position="below_section_mark"
+        app:bsb_show_section_mark="true"
+        app:bsb_show_section_text="true"
+        app:bsb_show_thumb_text="true"
+        app:bsb_thumb_text_size="18sp"
+        app:bsb_touch_to_seek="true" />
+
+    <TextView
+        android:id="@+id/editRatingDialog_performanceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="performance"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <com.xw.repo.BubbleSeekBar
+        app:bsb_second_track_color="#006699"
+
+        android:id="@+id/editRatingDialog_performanceRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:bsb_auto_adjust_section_mark="true"
+        app:bsb_max="10"
+        app:bsb_min="1"
+        app:bsb_section_count="9"
+        app:bsb_section_text_position="below_section_mark"
+        app:bsb_show_section_mark="true"
+        app:bsb_show_section_text="true"
+        app:bsb_show_thumb_text="true"
+        app:bsb_thumb_text_size="18sp"
+        app:bsb_touch_to_seek="true" />
+</LinearLayout>

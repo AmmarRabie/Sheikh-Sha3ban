@@ -4,19 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:paddingLeft="8dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_part" />
-
     <TextView
         android:id="@+id/partItem_name"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAppearance="?android:textAppearanceMedium"
         android:gravity="center"
-        tools:text="@tools:sample/last_names" />
+        android:paddingBottom="10dp"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/black"
+        tools:text="الجزء الأول" />
 
 </LinearLayout>

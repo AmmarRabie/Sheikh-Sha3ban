@@ -3,6 +3,7 @@ package com.products.ammar.sheikhsha3ban.common.data.mock;
 
 import com.products.ammar.sheikhsha3ban.common.data.DataService;
 import com.products.ammar.sheikhsha3ban.common.data.model.AdviceModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.PostModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
 
@@ -62,6 +63,21 @@ public class MockRepo implements DataService {
     }
 
     @Override
+    public void getUserRats(String userId, Get<EvaluationModel> callback) {
+
+    }
+
+    @Override
+    public void updateUserRates(String userId, ArrayList<Integer> partsPos, ArrayList<Integer> quartersPos, ArrayList<Integer> typesPos, ArrayList<Integer> newRates, Update callback) {
+
+    }
+
+    @Override
+    public void updateUserRate(String userId, int partsPos, int quarterPos, int typePos, int newRate, Update callback) {
+
+    }
+
+    @Override
     public void getMorePosts(Get<ArrayList<PostModel>> callback, int moreIndx) {
 
     }
@@ -70,6 +86,7 @@ public class MockRepo implements DataService {
     public void insertPost(String userId, String body, Insert<PostModel> callback) {
 
     }
+
 
     @Override
     public void forget(Listen listener) {

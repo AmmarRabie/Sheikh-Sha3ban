@@ -7,8 +7,8 @@
     <string name="mes_resetEmailSent">تم ارسال الايميل بنجاح</string>
     <string name="mes_passwordChanged">تم تغيير كلمة السر بنجاح</string>
     <string name="post_to_community">انشر للمجتمع</string>
-    <string name="title_advice">الفوائد</string>
-    <string name="title_community">المجتمع</string>
+    <string name="advice">الفوائد</string>
+    <string name="community">المجتمع</string>
     <string name="confirmPass">اكد كلمة السر</string>
     <string name="dTitle_editName">عدل الاسم</string>
     <string name="FMT_welcomeBackMes">مرحبا %s, نرحب بعودتك</string>

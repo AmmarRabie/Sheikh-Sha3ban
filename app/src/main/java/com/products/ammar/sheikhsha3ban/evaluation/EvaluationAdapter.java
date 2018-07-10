@@ -10,15 +10,16 @@ import android.widget.TextView;
 import com.products.ammar.sheikhsha3ban.R;
 import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 
-public class ExpandableAdapter extends BaseExpandableListAdapter {
+public class EvaluationAdapter extends BaseExpandableListAdapter {
 
     private final EvaluationModel RATS;
     private final Context context;
-    ;
+    private OnEditClickListener listener;
 
-    public ExpandableAdapter(Context context, EvaluationModel rats) {
+    public EvaluationAdapter(Context context, EvaluationModel rats, OnEditClickListener listener) {
         this.context = context;
         RATS = rats;
+        this.listener = listener;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = ((LayoutInflater) context
@@ -43,12 +44,20 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         name.setText(childPosition + 1 + "");
 
         TextView rateKeeping = convertView.findViewById(R.id.rob3Item_rateRemembering);
-        int rememberRate = RATS.getRate(groupPosition, childPosition)[EvaluationModel.REMEMBER_INDEX];
+        int rememberRate = RATS.getRate(groupPosition, childPosition)[EvaluationModel.REMEMBER_INDEX] + 1;
         rateKeeping.setText(rememberRate + "");
 
         TextView ratePerformance = convertView.findViewById(R.id.rob3Item_ratePerformance);
-        int performanceRate = RATS.getRate(groupPosition, childPosition)[EvaluationModel.PERFORMANCE_INDEX];
+        int performanceRate = RATS.getRate(groupPosition, childPosition)[EvaluationModel.PERFORMANCE_INDEX] + 1;
         ratePerformance.setText(performanceRate + "");
+
+        View editView = convertView.findViewById(R.id.rob3Item_editRating);
+        editView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onEditClick(groupPosition, childPosition);
+            }
+        });
         return convertView;
     }
 
@@ -92,6 +101,10 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
+    }
+
+    public interface OnEditClickListener {
+        void onEditClick(int part, int quarter);
     }
 }

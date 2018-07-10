@@ -19,6 +19,12 @@ import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.Us
  */
 abstract class FirebaseRepoHelper implements DataService {
 
+    static String zeros480 = "";
+
+    static {
+        for (int i = 0; i < 240; i++)
+            zeros480 += "00";
+    }
 
     FirebaseRepoHelper() {
 
@@ -42,8 +48,43 @@ abstract class FirebaseRepoHelper implements DataService {
                 .getReference(StorageEntry.FOLDER_PROFILE_IMAGES).child(imageId + ".png");
     }
 
+    static int[][][] parseRats(String rats) {
+        int[][][] result = new int[30][8][2];
+        int part = 0, quarter = 0, type = 0;
+        for (char rateChar : rats.toCharArray()) {
+            int parsedRate = Integer.parseInt(rateChar + "");
+            result[part][quarter][type++] = parsedRate;
+            if (type == 2) {
+                type = 0;
+                quarter++;
+                if (quarter == 8) {
+                    quarter = 0;
+                    type = 0;
+                    part++;
+                }
+            }
+        }
+        return result;
+    }
+
+    static String deparseRats(int[][][] rats) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 8; j++) {
+                for (int k = 0; k < 2; k++) {
+                    result.append(rats[i][j][k]);
+                }
+            }
+        }
+        return result.toString();
+    }
+
+    static DatabaseReference getRateRef(String userId) {
+        return getUserRef(userId).child(UserEntry.KEY_RATE);
+    }
 
     @Override
     public void forget(Listen listener) {
     }
+
 }

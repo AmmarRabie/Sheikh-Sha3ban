@@ -17,6 +17,7 @@ final class FirebaseContract {
         static final String KEY_NAME = "name";
         static final String KEY_EMAIL = "email";
         static final String KEY_IMAGE = "profileImageUrl";
+        static final String KEY_RATE = "rate";
 
         static String[] keySet;
         static String[] requiredChildes;
