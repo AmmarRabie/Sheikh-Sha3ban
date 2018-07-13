@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+import es.dmoral.toasty.Toasty;
+
 public class ViewerAttendanceFragment extends Fragment implements ViewerAttendanceContract.Views {
 
     private static final String ENABLE_EDIT_KEY = "enable-edit";
@@ -139,12 +141,12 @@ public class ViewerAttendanceFragment extends Fragment implements ViewerAttendan
 
     @Override
     public void showErrorMessage(String message) {
-
+        Toasty.error(getContext(),message,Toast.LENGTH_SHORT,true).show();
     }
 
     @Override
     public void showInfoMessage(String message) {
-
+        Toasty.info(getContext(),message,Toast.LENGTH_SHORT,true).show();
     }
 
     private static final class FridayDisableDecorator implements DayViewDecorator {
