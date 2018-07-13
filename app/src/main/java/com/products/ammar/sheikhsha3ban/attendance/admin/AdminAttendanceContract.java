@@ -17,6 +17,6 @@ public interface AdminAttendanceContract {
      * Actions methods implemented by presenter
      */
     interface Actions extends IBaseActions {
-
+        void updateAttendance(String id, boolean attend);
     }
 }

@@ -39,9 +39,13 @@ public class MockRepo implements DataService {
         return INSTANCE;
     }
 
-
     @Override
     public void getUser(String userId, Get<UserModel> callback) {
+
+    }
+
+    @Override
+    public void getAllUsers(Get<ArrayList<UserModel>> callback) {
 
     }
 
@@ -50,9 +54,18 @@ public class MockRepo implements DataService {
 
     }
 
-
     @Override
     public void getAllAdvice(Get<ArrayList<AdviceModel>> callback) {
+
+    }
+
+    @Override
+    public void getMorePosts(Get<ArrayList<PostModel>> callback, int moreIndx) {
+
+    }
+
+    @Override
+    public void insertPost(String userId, String body, Insert<PostModel> callback) {
 
     }
 
@@ -82,22 +95,6 @@ public class MockRepo implements DataService {
     }
 
     @Override
-    public void getMorePosts(Get<ArrayList<PostModel>> callback, int moreIndx) {
-
-    }
-
-    @Override
-    public void insertPost(String userId, String body, Insert<PostModel> callback) {
-
-    }
-
-
-    @Override
-    public void forget(Listen listener) {
-
-    }
-
-    @Override
     public void setOneDayAttendanceForUser(String userId, int year, int month, int day, boolean attend, Update callback) {
 
     }
@@ -108,17 +105,17 @@ public class MockRepo implements DataService {
     }
 
     @Override
-    public void getAttendanceForUserOfMonth(String userId, int year, int month, Get<UserMonthAttendanceModel> callback) {
-
-    }
-
-    @Override
-    public void getAllUsers(Get<ArrayList<UserModel>> callback) {
-
-    }
-
-    @Override
     public void getDayAttendanceForAllUsers(Get<ArrayList<UserDayAttendanceModel>> callback) {
+
+    }
+
+    @Override
+    public void getMonthAttendance(String userId, int year, int month, Get<UserMonthAttendanceModel> callback) {
+
+    }
+
+    @Override
+    public void forget(Listen listener) {
 
     }
 }

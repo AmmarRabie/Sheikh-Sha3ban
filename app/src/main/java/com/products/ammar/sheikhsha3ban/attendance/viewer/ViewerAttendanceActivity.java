@@ -23,7 +23,7 @@ public class ViewerAttendanceActivity extends AppCompatActivity {
                 .findFragmentById(R.id.contentFrame);
 
         if (viewerAttendanceFragment == null) {
-            viewerAttendanceFragment = ViewerAttendanceFragment.newInstance(true);
+            viewerAttendanceFragment = ViewerAttendanceFragment.newInstance();
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     viewerAttendanceFragment, R.id.contentFrame);

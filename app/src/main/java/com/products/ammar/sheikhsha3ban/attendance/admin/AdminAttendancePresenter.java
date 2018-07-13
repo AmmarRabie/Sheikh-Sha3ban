@@ -2,11 +2,11 @@ package com.products.ammar.sheikhsha3ban.attendance.admin;
 
 import com.products.ammar.sheikhsha3ban.common.data.DataService;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserDayAttendanceModel;
-import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
+import com.products.ammar.sheikhsha3ban.common.util.DateUtil;
 
 import java.util.ArrayList;
 
-public class AdminAttendancePresenter implements AdminAttendanceContract.Actions{
+public class AdminAttendancePresenter implements AdminAttendanceContract.Actions {
 
     private AdminAttendanceContract.Views mView;
     private DataService mData;
@@ -26,6 +26,11 @@ public class AdminAttendancePresenter implements AdminAttendanceContract.Actions
                 mView.showUsers(data);
             }
         });
+    }
+
+    @Override
+    public void updateAttendance(String id, boolean attend) {
+        mData.setOneDayAttendanceForUser(id, DateUtil.getCurrentYear(), DateUtil.getCurrentMonth(), DateUtil.getCurrentDay(), attend, null);
     }
 }
 

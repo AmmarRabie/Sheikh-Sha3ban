@@ -69,8 +69,8 @@ public class AdminAttendanceFragment extends Fragment implements AdminAttendance
     }
 
     @Override
-    public void onAttendanceChange(View view, int pos, boolean attend) {
-
+    public void onAttendanceChange(View view,UserModel user, int pos, boolean attend) {
+        mActions.updateAttendance(user.getId(), attend);
     }
 
     @Override

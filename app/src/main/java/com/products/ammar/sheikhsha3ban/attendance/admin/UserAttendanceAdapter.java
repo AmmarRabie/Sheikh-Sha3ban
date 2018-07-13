@@ -56,7 +56,7 @@ public class UserAttendanceAdapter extends RecyclerView.Adapter<UserAttendanceAd
 
 
     interface OnItemClickListener {
-        void onAttendanceChange(View view, int pos, boolean attend);
+        void onAttendanceChange(View view, UserModel user, int pos, boolean attend);
 
         void onUserClicked(View view, UserModel user, int pos);
     }
@@ -89,7 +89,7 @@ public class UserAttendanceAdapter extends RecyclerView.Adapter<UserAttendanceAd
             attendanceView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    mItemClickListener.onAttendanceChange(compoundButton, position, b);
+                    mItemClickListener.onAttendanceChange(compoundButton, currUser, position, b);
                 }
             });
             nameView.setOnClickListener(new View.OnClickListener() {

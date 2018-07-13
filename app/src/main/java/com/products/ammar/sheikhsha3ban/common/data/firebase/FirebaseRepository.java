@@ -363,12 +363,12 @@ public class FirebaseRepository extends FirebaseRepoHelper {
                 asChars[day - 1] = attend ? '1' : '0';
                 attendanceStr = String.copyValueOf(asChars);
                 attendanceRef.setValue(attendanceStr);
-                callback.onUpdateSuccess();
+                if (callback != null) callback.onUpdateSuccess();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                callback.onError(databaseError.getMessage());
+                if (callback != null) callback.onError(databaseError.getMessage());
             }
         });
     }
@@ -379,7 +379,7 @@ public class FirebaseRepository extends FirebaseRepoHelper {
     }
 
     @Override
-    public void getAttendanceForUserOfMonth(String userId, int year, int month, final Get<UserMonthAttendanceModel> callback) {
+    public void getMonthAttendance(String userId, int year, int month, final Get<UserMonthAttendanceModel> callback) {
         DatabaseReference attendanceRef = getAttendanceRef(userId).child(getAttendanceId(year, month));
         attendanceRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

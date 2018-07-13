@@ -38,7 +38,6 @@ public interface DataService {
     void getUser(String userId, Get<UserModel> callback);
 
     void getAllUsers(Get<ArrayList<UserModel>> callback);
-    void getDayAttendanceForAllUsers(Get<ArrayList<UserDayAttendanceModel>> callback);
 
     /**
      * Insert new user into the data source. Note that this method doesn't authenticate the user
@@ -48,6 +47,9 @@ public interface DataService {
      * @param callback  Send the feedback to the caller or tell him with errors
      */
     void insertUser(UserModel userModel, byte[] profileImageBytes, Insert<Void> callback);
+
+
+
 
     void getAllAdvice(Get<ArrayList<AdviceModel>> callback);
 
@@ -73,10 +75,12 @@ public interface DataService {
                          int newRate,
                          Update callback);
 
+
+    // Attendance:
     void setOneDayAttendanceForUser(String userId, int year, int month, int day, boolean attend, Update callback);
     void setOneMonthAttendanceForUser(String userId, int year, int month, SparseBooleanArray attendFlags, Update callback);
-
-    void getAttendanceForUserOfMonth(String userId, int year, int month, Get<UserMonthAttendanceModel> callback);
+    void getDayAttendanceForAllUsers(Get<ArrayList<UserDayAttendanceModel>> callback);
+    void getMonthAttendance(String userId, int year, int month, Get<UserMonthAttendanceModel> callback);
 
     /**
      * Remove notifying callbacks with changing. After this function is called by a given listener
