@@ -9,6 +9,9 @@
         <item name="buttonStyle">@style/AppTheme.Button</item>
     </style>
 
-    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored"/>
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored" />
 
+    <style name="CustomTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
+        <item name="android:textColor">@color/my_date_text_color</item>
+    </style>
 </resources>

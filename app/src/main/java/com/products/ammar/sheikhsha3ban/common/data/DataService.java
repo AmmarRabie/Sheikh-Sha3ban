@@ -1,9 +1,13 @@
 package com.products.ammar.sheikhsha3ban.common.data;
 
+import android.util.SparseBooleanArray;
+
 import com.products.ammar.sheikhsha3ban.common.data.model.AdviceModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.PostModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.UserDayAttendanceModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.UserMonthAttendanceModel;
 
 import java.util.ArrayList;
 
@@ -32,6 +36,9 @@ public interface DataService {
      * @param callback Send the data to the caller or tell him with errors
      */
     void getUser(String userId, Get<UserModel> callback);
+
+    void getAllUsers(Get<ArrayList<UserModel>> callback);
+    void getDayAttendanceForAllUsers(Get<ArrayList<UserDayAttendanceModel>> callback);
 
     /**
      * Insert new user into the data source. Note that this method doesn't authenticate the user
@@ -65,6 +72,11 @@ public interface DataService {
                          int typePos,
                          int newRate,
                          Update callback);
+
+    void setOneDayAttendanceForUser(String userId, int year, int month, int day, boolean attend, Update callback);
+    void setOneMonthAttendanceForUser(String userId, int year, int month, SparseBooleanArray attendFlags, Update callback);
+
+    void getAttendanceForUserOfMonth(String userId, int year, int month, Get<UserMonthAttendanceModel> callback);
 
     /**
      * Remove notifying callbacks with changing. After this function is called by a given listener

@@ -31,6 +31,13 @@ public class UserModel implements Serializable {
         this.id = id;
     }
 
+    public UserModel(UserModel user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.email = user.email;
+        this.profileImage = user.profileImage;
+    }
+
     public String getName() {
         return name;
     }

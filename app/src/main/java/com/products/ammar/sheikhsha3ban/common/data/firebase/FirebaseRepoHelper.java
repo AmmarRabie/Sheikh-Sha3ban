@@ -1,5 +1,7 @@
 package com.products.ammar.sheikhsha3ban.common.data.firebase;
 
+import android.util.SparseBooleanArray;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -7,6 +9,9 @@ import com.google.firebase.storage.StorageReference;
 import com.products.ammar.sheikhsha3ban.common.data.DataService;
 import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.StorageEntry;
 import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.UserEntry;
+
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -19,6 +24,7 @@ import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.Us
  */
 abstract class FirebaseRepoHelper implements DataService {
 
+    static final int MIN_DAY_IN_MONTH = 28;
     static String zeros480 = "";
 
     static {
@@ -30,22 +36,14 @@ abstract class FirebaseRepoHelper implements DataService {
 
     }
 
-
-    static DatabaseReference getReference(String ref) {
-        return FirebaseDatabase.getInstance().getReference(ref);
-    }
-
-    static DatabaseReference getUserRef(String userId) {
-        return getReference(UserEntry.KEY_THIS).child(userId);
-    }
-
-    static DatabaseReference getPostRef(String postId) {
-        return getReference(FirebaseContract.PostEntry.KEY_THIS).child(postId);
-    }
-
-    static StorageReference getProfileImageRef(String imageId) {
-        return FirebaseStorage.getInstance()
-                .getReference(StorageEntry.FOLDER_PROFILE_IMAGES).child(imageId + ".png");
+    static SparseBooleanArray parseAttendance(String attendanceStr) {
+        if (!attendanceStr.matches("^[0,1]{28,31}"))
+            throw new IllegalArgumentException("parseAttendance(), par is badly formatted " + attendanceStr);
+        SparseBooleanArray result = new SparseBooleanArray(attendanceStr.length());
+        for (int i = 0; i < attendanceStr.length(); i++) {
+            result.append(i, attendanceStr.charAt(i) == '1');
+        }
+        return result;
     }
 
     static int[][][] parseRats(String rats) {
@@ -79,8 +77,40 @@ abstract class FirebaseRepoHelper implements DataService {
         return result.toString();
     }
 
+    static DatabaseReference getReference(String ref) {
+        return FirebaseDatabase.getInstance().getReference(ref);
+    }
+
+    static DatabaseReference getUserRef(String userId) {
+        return getReference(UserEntry.KEY_THIS).child(userId);
+    }
+
+    static DatabaseReference getPostRef(String postId) {
+        return getReference(FirebaseContract.PostEntry.KEY_THIS).child(postId);
+    }
+
+    static StorageReference getProfileImageRef(String imageId) {
+        return FirebaseStorage.getInstance()
+                .getReference(StorageEntry.FOLDER_PROFILE_IMAGES).child(imageId + ".png");
+    }
+
     static DatabaseReference getRateRef(String userId) {
         return getUserRef(userId).child(UserEntry.KEY_RATE);
+    }
+
+    static DatabaseReference getAttendanceRef(String userId) {
+        return getUserRef(userId).child(UserEntry.KEY_ATTENDANCE);
+    }
+
+    static String getAttendanceId(int year, int month) {
+        return (year * 12) + month + "";
+    }
+
+    static String getAttendanceId() {
+        Calendar.getInstance().get(Calendar.YEAR);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        return getAttendanceId(year, month);
     }
 
     @Override

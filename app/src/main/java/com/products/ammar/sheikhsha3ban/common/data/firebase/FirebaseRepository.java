@@ -4,6 +4,7 @@ package com.products.ammar.sheikhsha3ban.common.data.firebase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,7 +23,9 @@ import com.products.ammar.sheikhsha3ban.common.data.firebase.FirebaseContract.Us
 import com.products.ammar.sheikhsha3ban.common.data.model.AdviceModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.PostModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.UserDayAttendanceModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.UserMonthAttendanceModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -342,6 +345,112 @@ public class FirebaseRepository extends FirebaseRepoHelper {
                     Log.e(TAG, "updateUserRates: ", e);
                     throw e;
                 }
+            }
+        });
+    }
+
+    @Override
+    public void setOneDayAttendanceForUser(String userId, int year, int month, final int day, final boolean attend, final Update callback) {
+        final DatabaseReference attendanceRef = getAttendanceRef(userId).child(getAttendanceId(year, month));
+        attendanceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String attendanceStr = dataSnapshot.getValue(String.class);
+                if (attendanceStr == null || attendanceStr.isEmpty()) {
+                    attendanceStr = "0000000000000000000000000000000";
+                }
+                char[] asChars = attendanceStr.toCharArray();
+                asChars[day - 1] = attend ? '1' : '0';
+                attendanceStr = String.copyValueOf(asChars);
+                attendanceRef.setValue(attendanceStr);
+                callback.onUpdateSuccess();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void setOneMonthAttendanceForUser(String userId, int year, int month, SparseBooleanArray attendFlags, Update callback) {
+        assert true;
+    }
+
+    @Override
+    public void getAttendanceForUserOfMonth(String userId, int year, int month, final Get<UserMonthAttendanceModel> callback) {
+        DatabaseReference attendanceRef = getAttendanceRef(userId).child(getAttendanceId(year, month));
+        attendanceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String attendanceStr = dataSnapshot.getValue(String.class);
+                if (attendanceStr == null) {
+                    callback.onDataNotAvailable();
+                    return;
+                }
+                callback.onDataFetched(new UserMonthAttendanceModel(parseAttendance(attendanceStr)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getAllUsers(final Get<ArrayList<UserModel>> callback) {
+        getReference(UserEntry.KEY_THIS).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot usersSnapshot) {
+                if (usersSnapshot.exists()) {
+                    callback.onDataFetched(new ArrayList<UserModel>());
+                    return;
+                }
+                ArrayList<UserModel> result = new ArrayList<UserModel>(((int) usersSnapshot.getChildrenCount()));
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    UserModel currUser = Serializer.user(userSnapshot);
+                    result.add(currUser);
+                }
+                callback.onDataFetched(result);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError.getMessage());
+            }
+        });
+    }
+
+
+    @Override
+    public void getDayAttendanceForAllUsers(final Get<ArrayList<UserDayAttendanceModel>> callback) {
+        getReference(UserEntry.KEY_THIS).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot usersSnapshot) {
+                if (!usersSnapshot.exists()) {
+                    callback.onDataFetched(new ArrayList<UserDayAttendanceModel>());
+                    return;
+                }
+                ArrayList<UserDayAttendanceModel> result = new ArrayList<UserDayAttendanceModel>(((int) usersSnapshot.getChildrenCount()));
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    UserModel currUser = Serializer.user(userSnapshot);
+                    String currMonthAttendance = userSnapshot.child(UserEntry.KEY_ATTENDANCE)
+                            .child(getAttendanceId())
+                            .getValue(String.class);
+                    if (currMonthAttendance == null) {
+                        currMonthAttendance = "0000000000000000000000000000000";
+                    }
+                    result.add(new UserDayAttendanceModel(currUser
+                            , new UserMonthAttendanceModel(parseAttendance(currMonthAttendance))));
+                }
+                callback.onDataFetched(result);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError.getMessage());
             }
         });
     }

@@ -21,14 +21,16 @@
 
         <activity
             android:name=".auth.SignUpActivity"
-            android:label="Sign up"/>
+            android:label="Sign up" />
 
         <activity
             android:name=".auth.LoginActivity"
-            android:label="@string/login"/>
+            android:label="@string/login" />
         <activity
             android:name=".profile.ProfileActivity"
             android:label="@string/profile" />
+        <activity android:name=".attendance.viewer.ViewerAttendanceActivity" />
+        <activity android:name=".attendance.admin.AdminAttendanceActivity" android:exported="true" />
         <activity android:name=".attendance.AttendanceActivity" />
     </application>
 

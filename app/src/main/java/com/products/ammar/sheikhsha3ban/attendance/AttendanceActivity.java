@@ -1,12 +1,12 @@
 package com.products.ammar.sheikhsha3ban.attendance;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.products.ammar.sheikhsha3ban.R;
+import com.products.ammar.sheikhsha3ban.attendance.admin.AdminAttendanceActivity;
 import com.products.ammar.sheikhsha3ban.common.auth.firebase.FirebaseAuthService;
-import com.products.ammar.sheikhsha3ban.common.util.ActivityUtils;
 
 
 public class AttendanceActivity extends AppCompatActivity {
@@ -14,34 +14,16 @@ public class AttendanceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendance);
-        boolean isAdmin = FirebaseAuthService.getInstance().getCurrentUser().getUserId().equals("userId");
+        boolean isAdmin = FirebaseAuthService.getInstance().getCurrentUser().getUserId().equals("PdOfzsGkRPPRfeS0oedPnC7Z4yy1");
+        isAdmin = isAdmin || FirebaseAuthService.getInstance().getCurrentUser().getUserId().equals("9MzTSbtaP5SSa956loDD71u4RvT2");
         if (isAdmin) {
-            AdminAttendanceFragment adminAttendanceFragment = (AdminAttendanceFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.contentFrame);
+            Intent adminActivity = new Intent(this, AdminAttendanceActivity.class);
+            startActivity(adminActivity);
 
-
-            if (adminAttendanceFragment == null) {
-                adminAttendanceFragment = AdminAttendanceFragment.newInstance();
-
-                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                        adminAttendanceFragment, R.id.contentFrame);
-            }
-
-            // Create the presenter
-            new AdminAttendancePresenter(adminAttendanceFragment);
         } else {
-            AttendanceFragment attendanceFragment = (AttendanceFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.contentFrame);
-
-            if (attendanceFragment == null) {
-                attendanceFragment = AttendanceFragment.newInstance();
-
-                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                        attendanceFragment, R.id.contentFrame);
-            }
-            // Create the presenter
-            new AttendancePresenter(attendanceFragment);
+            Intent adminActivity = new Intent(this, AdminAttendanceActivity.class);
+            startActivity(adminActivity);
         }
+        finish();
     }
 }

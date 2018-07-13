@@ -1,11 +1,15 @@
 package com.products.ammar.sheikhsha3ban.common.data.mock;
 
 
+import android.util.SparseBooleanArray;
+
 import com.products.ammar.sheikhsha3ban.common.data.DataService;
 import com.products.ammar.sheikhsha3ban.common.data.model.AdviceModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.EvaluationModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.PostModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.UserDayAttendanceModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
+import com.products.ammar.sheikhsha3ban.common.data.model.UserMonthAttendanceModel;
 
 import java.util.ArrayList;
 
@@ -90,6 +94,31 @@ public class MockRepo implements DataService {
 
     @Override
     public void forget(Listen listener) {
+
+    }
+
+    @Override
+    public void setOneDayAttendanceForUser(String userId, int year, int month, int day, boolean attend, Update callback) {
+
+    }
+
+    @Override
+    public void setOneMonthAttendanceForUser(String userId, int year, int month, SparseBooleanArray attendFlags, Update callback) {
+
+    }
+
+    @Override
+    public void getAttendanceForUserOfMonth(String userId, int year, int month, Get<UserMonthAttendanceModel> callback) {
+
+    }
+
+    @Override
+    public void getAllUsers(Get<ArrayList<UserModel>> callback) {
+
+    }
+
+    @Override
+    public void getDayAttendanceForAllUsers(Get<ArrayList<UserDayAttendanceModel>> callback) {
 
     }
 }

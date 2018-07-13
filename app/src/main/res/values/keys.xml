@@ -6,4 +6,5 @@
 
     <string name="IKey_forceLogin" translatable="false">force_login</string>
     <string name="IKey_admin" translatable="false">admin</string>
+    <string name="IKey_userId" translatable="false">user-id</string>
 </resources>
