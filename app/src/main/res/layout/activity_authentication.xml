@@ -29,7 +29,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:onClick="onCreateAccountClick"
-            android:text="No account yet? Create one"
+            android:text="@string/create_account"
             android:textSize="16dip" />
 
     </LinearLayout>

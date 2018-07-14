@@ -95,15 +95,15 @@ public class EvaluationFragment extends Fragment implements EvaluationContract.V
             this.currRememberRate = currRememberRate;
 
             setView(R.layout.dialog_edit_rating);
-            setTitle("Edit ratings");
-            setPositiveButton("Change", new DialogInterface.OnClickListener() {
+            setTitle(R.string.dTitle_editRatings);
+            setPositiveButton(R.string.dAction_change, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     int newPerformance = performanceBar.getProgress() - 1;
                     int newRemember = rememberBar.getProgress() - 1;
                     listener.onChangeClick(newRemember, newPerformance);
                 }
-            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            }).setNegativeButton(R.string.dAction_cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();

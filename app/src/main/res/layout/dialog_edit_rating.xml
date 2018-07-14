@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="remembering"
+        android:text="@string/remembering"
         android:textAppearance="?android:textAppearanceMedium"
         android:textStyle="bold" />
 
@@ -27,12 +27,13 @@
         app:bsb_show_section_text="true"
         app:bsb_show_thumb_text="true"
         app:bsb_thumb_text_size="18sp"
+        app:bsb_rtl="true"
         app:bsb_touch_to_seek="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="performance"
+        android:text="@string/performance"
         android:textAppearance="?android:textAppearanceMedium"
         android:textStyle="bold" />
 
@@ -51,6 +52,7 @@
         app:bsb_show_section_mark="true"
         app:bsb_show_section_text="true"
         app:bsb_show_thumb_text="true"
+        app:bsb_rtl="true"
         app:bsb_thumb_text_size="18sp"
         app:bsb_touch_to_seek="true" />
 </LinearLayout>

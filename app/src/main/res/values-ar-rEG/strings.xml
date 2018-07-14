@@ -23,4 +23,18 @@
     <string name="dAction_add">اضف</string>
     <string name="dAction_save">سجل</string>
     <string name="dAction_delete">امسح</string>
+    <string name="mes_phoneChanged">تم تغيير رقم الهاتف</string>
+    <string name="dTitle_editRatings">تعديل التقييم</string>
+    <string name="remembering">الحفظ</string>
+    <string name="performance">التجويد</string>
+    <string name="sign_up">انشاء حساب</string>
+    <string name="create_account">ليس لديك حساب؟ انشأ حسابا الان</string>
+    <string name="old_password">كلمة المرور الحالية</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="confirm_password">أكد كلمة المرور</string>
+    <string name="email">الحساب (الايميل)</string>
+    <string name="password">كلمة المرور</string>
+    <string name="forget_password">نسيت كلمة المرور؟</string>
+    <string name="name">الاسم</string>
+    <string name="phone">رقم التليفون</string>
 </resources>

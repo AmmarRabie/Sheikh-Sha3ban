@@ -30,5 +30,18 @@
     <string name="sign_out">Sign out</string>
     <string name="evaluation">evaluation</string>
     <string name="mes_phoneChanged">phone updated successfully</string>
+    <string name="dTitle_editRatings">Edit ratings</string>
+    <string name="remembering">remembering</string>
+    <string name="performance">performance</string>
+    <string name="sign_up">Sign up</string>
+    <string name="create_account">No account yet? Create one</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="name">Name</string>
+    <string name="phone">phone</string>
 
 </resources>

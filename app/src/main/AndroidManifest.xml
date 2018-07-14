@@ -21,7 +21,7 @@
 
         <activity
             android:name=".auth.SignUpActivity"
-            android:label="Sign up" />
+            android:label="@string/sign_up" />
 
         <activity
             android:name=".auth.LoginActivity"
