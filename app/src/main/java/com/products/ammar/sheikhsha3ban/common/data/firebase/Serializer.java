@@ -20,22 +20,12 @@ import java.util.Date;
 class Serializer {
     private static final String TAG = "Serializer";
 
-/*    static GroupModel group(DataSnapshot groupSnapshot) {
-        String[] requiredChildes = GroupEntry.requiredChildes;
-        if (!checkRequiredChildes(requiredChildes, groupSnapshot)) return null;
-
-        String groupId = groupSnapshot.getKey();
-        String name = groupSnapshot.child(GroupEntry.KEY_NAME).getValue(String.class);
-        String ownerId = groupSnapshot.child(GroupEntry.KEY_OWNER_ID).getValue(String.class);
-
-        return new GroupModel(name, groupId, ownerId);
-    }*/
-
     static UserModel user(DataSnapshot userRoot) {
         String name = userRoot.child(UserEntry.KEY_NAME).getValue(String.class);
         String email = userRoot.child(UserEntry.KEY_EMAIL).getValue(String.class);
+        String phone = userRoot.child(UserEntry.KEY_PHONE).getValue(String.class);
         String profileImage = userRoot.child(UserEntry.KEY_IMAGE).getValue(String.class);
-        return new UserModel(userRoot.getKey(), name, email, profileImage);
+        return new UserModel(userRoot.getKey(), name, email, phone, profileImage);
     }
 
     static PostModel post(DataSnapshot postSnapShot, DataSnapshot creatorSnapshot) {

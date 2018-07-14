@@ -55,7 +55,7 @@ interface SignUpContract {
          * @param password
          * @param confirmPassword
          */
-        void signUp(String name, String email, String password, String confirmPassword, byte[] profileImage);
+        void signUp(String name, String email, String phone, String password, String confirmPassword, byte[] profileImage);
 
     }
 }

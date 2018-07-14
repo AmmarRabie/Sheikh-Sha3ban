@@ -43,6 +43,7 @@ public interface AuthService {
 
     /**
      * Callback for authentication process
+     *
      * @param <SuccessData> The type of the data returned after authentication success
      */
     interface OnAuthActionComplete<SuccessData> {

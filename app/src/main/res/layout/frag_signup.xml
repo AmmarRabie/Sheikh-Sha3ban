@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         app:civ_border_color="#00000000"
         app:civ_border_width="2dp"
-        tools:src="@drawable/common_full_open_on_phone" />
+        tools:src="@drawable/user_item" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -48,6 +48,19 @@
             android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/signUp_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="18dp"
+            android:hint="phone"
+            android:inputType="phone" />
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

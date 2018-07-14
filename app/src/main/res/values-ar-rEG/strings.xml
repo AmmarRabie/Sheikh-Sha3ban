@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">شيخ شعبان</string>
+    <string name="app_name">جلسة ابن عثيمين</string>
     <string name="mes_signedInSuccess">تم تسجيل الدخول بنجاح</string>
     <string name="mes_signingUp_indicator">جاري تسجيل الدخول</string>
-    <string name="statistics">الاحصائيات</string>
     <string name="mes_resetEmailSent">تم ارسال الايميل بنجاح</string>
     <string name="mes_passwordChanged">تم تغيير كلمة السر بنجاح</string>
     <string name="post_to_community">انشر للمجتمع</string>
     <string name="advice">الفوائد</string>
     <string name="community">المجتمع</string>
-    <string name="confirmPass">اكد كلمة السر</string>
-    <string name="dTitle_editName">عدل الاسم</string>
     <string name="FMT_welcomeBackMes">مرحبا %s, نرحب بعودتك</string>
     <string name="mes_nameChanged">تم تغيير الأسم بنجاح</string>
-    <string name="newPass">كلمة السر الجديدة</string>
     <string name="login">تسجيل الدخول</string>
     <string name="profile">الصفحة الشخصية</string>
     <string name="by">بواسطة:</string>
     <string name="change_password">عدل كلمة المرور</string>
     <string name="sign_out">خروج</string>
+    <string name="evaluation">التقييم</string>
+    <string name="dTitle_changePass">تغيير كلمة المرور</string>
+    <string name="attendance">الغياب و الحضور</string>
+    <string name="dAction_cancel">الغاء</string>
+    <string name="dAction_change">غير</string>
+    <string name="dAction_add">اضف</string>
+    <string name="dAction_save">سجل</string>
+    <string name="dAction_delete">امسح</string>
 </resources>

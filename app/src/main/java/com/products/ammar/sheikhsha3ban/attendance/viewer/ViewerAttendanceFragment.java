@@ -33,9 +33,6 @@ import es.dmoral.toasty.Toasty;
 
 public class ViewerAttendanceFragment extends Fragment implements ViewerAttendanceContract.Views {
 
-    private static final String ENABLE_EDIT_KEY = "enable-edit";
-    private static final String USER_ID_KEY = "user-id";
-
     private ViewerAttendanceContract.Actions mActions;
 
     // views

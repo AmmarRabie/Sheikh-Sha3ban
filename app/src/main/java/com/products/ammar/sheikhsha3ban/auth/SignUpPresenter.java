@@ -73,30 +73,33 @@ class SignUpPresenter implements SignUpContract.Actions {
     }
 
     @Override
-    public void signUp(final String name, final String email,
+    public void signUp(final String name, final String email, final String phone,
                        String password, String confirmPassword, final byte[] profileImage) {
-
-
         if (!startTask())
             return;
 
         // sign up
-
         if (email == null || email.isEmpty() ||
                 password == null || password.isEmpty() ||
                 name == null || name.isEmpty() ||
-                confirmPassword == null || confirmPassword.isEmpty()) {
+                confirmPassword == null || confirmPassword.isEmpty() ||
+                phone == null || phone.isEmpty()) {
             mView.showErrorMessage("all fields can't be empty");
             endTask();
             return;
         }
-        if(!ValidationUtils.emailValidator(email)){
+        if (!ValidationUtils.emailValidator(email)) {
             mView.showErrorMessage("Invalid  Email Address");
             endTask();
             return;
         }
-        if(!ValidationUtils.userNameValidator(name)){
+        if (!ValidationUtils.userNameValidator(name)) {
             mView.showErrorMessage("Invalid UserName");
+            endTask();
+            return;
+        }
+        if (!ValidationUtils.phoneValidator(phone)) {
+            mView.showErrorMessage("Invalid phone number");
             endTask();
             return;
         }
@@ -110,7 +113,7 @@ class SignUpPresenter implements SignUpContract.Actions {
             @Override
             public void onSuccess(String userId) {
                 Log.d("SignUpPresenter: ", "createUserWithEmailAndPassword:success");
-                insertUser(userId, name, email, profileImage);
+                insertUser(userId, name, email, phone, profileImage);
             }
 
             @Override
@@ -123,9 +126,9 @@ class SignUpPresenter implements SignUpContract.Actions {
         });
     }
 
-    private void insertUser(String id, String name, String email, byte[] profileImageBytes) {
-        UserModel newUserModel = new UserModel(name, email, id);
-        mDataSource.insertUser(newUserModel,profileImageBytes, new DataService.Insert<Void>() {
+    private void insertUser(String id, String name, String email, String phone, byte[] profileImageBytes) {
+        UserModel newUserModel = new UserModel(id, name, email, phone, null);
+        mDataSource.insertUser(newUserModel, profileImageBytes, new DataService.Insert<Void>() {
             @Override
             public void onDataInserted(Void feedback) {
                 mView.showOnSuccess();

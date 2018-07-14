@@ -43,6 +43,7 @@ public class SignUpFragment extends Fragment implements SignUpContract.Views, Vi
     private EditText mPassword;
     private EditText mName;
     private EditText mConfirmPassword;
+    private EditText mPhoneView;
     private ImageView profileImageView;
     private ProgressDialog progressDialog = null;
 
@@ -62,6 +63,8 @@ public class SignUpFragment extends Fragment implements SignUpContract.Views, Vi
         mName = root.findViewById(R.id.signUp_name);
         mConfirmPassword = root.findViewById(R.id.signUp_confirmPass);
         profileImageView = root.findViewById(R.id.signUp_profileImage);
+        mPhoneView = root.findViewById(R.id.signUp_phone);
+
         setHasOptionsMenu(true);
 
         root.findViewById(R.id.signUp_signup).setOnClickListener(this);
@@ -139,8 +142,12 @@ public class SignUpFragment extends Fragment implements SignUpContract.Views, Vi
 
     @Override
     public void onClick(View view) {
-        mAction.signUp(mName.getText().toString(), mEmail.getText().toString(),
-                mPassword.getText().toString(), mConfirmPassword.getText().toString(), currImageBytes);
+        mAction.signUp(mName.getText().toString()
+                , mEmail.getText().toString()
+                , mPhoneView.getText().toString()
+                , mPassword.getText().toString()
+                , mConfirmPassword.getText().toString()
+                , currImageBytes);
     }
 
     @Override

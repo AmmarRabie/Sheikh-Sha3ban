@@ -90,6 +90,8 @@ public interface DataService {
      */
     void forget(Listen listener);
 
+    void updatePhoneNumber(String userId, String phoneNumber, Update callback);
+
 
     /**
      * define the general callback of listening for a value changed

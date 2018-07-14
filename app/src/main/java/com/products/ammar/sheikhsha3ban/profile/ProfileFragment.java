@@ -46,6 +46,8 @@ public class ProfileFragment extends Fragment implements ProfileContract.Views {
     private ProfileContract.Actions mAction;
 
     private EditText mNameView;
+    private EditText mPhoneView;
+    private Button mEditPhoneView;
     private TextView mEmailView;
     private Button mChangePassView;
     private Button mEditNameView;
@@ -56,6 +58,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.Views {
     private AlertDialog changePasswordDialog;
 
     private boolean mEditState = false;
+    private boolean mEditPhoneState = false;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -78,6 +81,8 @@ public class ProfileFragment extends Fragment implements ProfileContract.Views {
         mEditNameView = root.findViewById(R.id.profileFrag_editName);
         mSignOutView = root.findViewById(R.id.profileFrag_signOut);
         mProfileImageView = root.findViewById(R.id.profileFrag_profileImage);
+        mPhoneView = root.findViewById(R.id.profileFrag_phone);
+        mEditPhoneView = root.findViewById(R.id.profileFrag_editPhone);
 
         mSignOutView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +101,20 @@ public class ProfileFragment extends Fragment implements ProfileContract.Views {
                     mEditNameView.setBackground(getResources().getDrawable(android.R.drawable.ic_menu_save));
                     mNameView.setEnabled(true);
                     mNameView.selectAll();
+                }
+            }
+        });
+
+        mEditPhoneView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mEditPhoneState) {
+                    mAction.changePhone(mPhoneView.getText().toString());
+                } else {
+                    mEditPhoneState = true;
+                    mEditPhoneView.setBackground(getResources().getDrawable(android.R.drawable.ic_menu_save));
+                    mPhoneView.setEnabled(true);
+                    mPhoneView.selectAll();
                 }
             }
         });
@@ -227,6 +246,14 @@ public class ProfileFragment extends Fragment implements ProfileContract.Views {
     }
 
     @Override
+    public void showOnChangePhoneSuccess() {
+        Toast.makeText(getContext(), getString(R.string.mes_phoneChanged), Toast.LENGTH_SHORT).show();
+        mEditPhoneState = false;
+        mEditPhoneView.setBackground(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+        mPhoneView.setEnabled(false);
+    }
+
+    @Override
     public void showOnChangePassSuccess() {
         Toasty.success(getContext(),
                 getString(R.string.mes_passwordChanged), Toast.LENGTH_SHORT, true).show();
@@ -245,6 +272,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.Views {
     public void showUserInfo(UserModel user) {
         mNameView.setText(user.getName());
         mEmailView.setText(user.getEmail());
+        mPhoneView.setText(user.getPhone());
         if (user.getProfileImage() == null) // do nothing if the user is and old user with no image
             return;
         ProfileImageUtil.setProfileImage(user.getProfileImage(), mProfileImageView, 250);

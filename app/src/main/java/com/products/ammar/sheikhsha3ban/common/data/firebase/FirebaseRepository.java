@@ -98,6 +98,7 @@ public class FirebaseRepository extends FirebaseRepoHelper {
         HashMap<String, String> values = new HashMap<>();
         values.put(UserEntry.KEY_EMAIL, userModel.getEmail());
         values.put(UserEntry.KEY_NAME, userModel.getName());
+        values.put(UserEntry.KEY_PHONE, userModel.getPhone());
 
         getUserRef(userModel.getId()).setValue(values).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -113,15 +114,25 @@ public class FirebaseRepository extends FirebaseRepoHelper {
             }
 
             private void insertProfileImage() {
-                getProfileImageRef(userModel.getId()).putBytes(profileImageBytes);
-                getProfileImageRef(userModel.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                getProfileImageRef(userModel.getId()).putBytes(profileImageBytes).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(Uri uri) {
-                        getUserRef(userModel.getId()).child(UserEntry.KEY_IMAGE).setValue(uri.toString());
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        getProfileImageRef(userModel.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                getUserRef(userModel.getId()).child(UserEntry.KEY_IMAGE).setValue(uri.toString());
+                            }
+                        });
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public void updatePhoneNumber(String userId, String phoneNumber, Update callback) {
+        getUserRef(userId).child(UserEntry.KEY_PHONE).setValue(phoneNumber);
+        if (callback != null) callback.onUpdateSuccess();
     }
 
     @Override
@@ -223,6 +234,7 @@ public class FirebaseRepository extends FirebaseRepoHelper {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        if (callback == null) return;
                         if (task.isSuccessful()) {
                             callback.onUpdateSuccess();
                         } else {
@@ -235,13 +247,19 @@ public class FirebaseRepository extends FirebaseRepoHelper {
     }
 
     @Override
-    public void updateUserProfileImage(String userId, byte[] newImageBytes, final Update callback) {
+    public void updateUserProfileImage(final String userId, byte[] newImageBytes, final Update callback) {
         getProfileImageRef(userId).putBytes(newImageBytes)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         if (callback != null)
                             callback.onUpdateSuccess();
+                        getProfileImageRef(userId).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                getUserRef(userId).child(UserEntry.KEY_IMAGE).setValue(uri.toString());
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

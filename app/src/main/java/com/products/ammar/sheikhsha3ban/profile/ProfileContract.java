@@ -37,6 +37,8 @@ interface ProfileContract {
          */
         void showOnChangeNameSuccess();
 
+        void showOnChangePhoneSuccess();
+
         /**
          * to show message when change password success
          *
@@ -96,5 +98,7 @@ interface ProfileContract {
          * logic of changing profile image
          */
         void changeProfileImage(byte[] newImageBytes);
+
+        void changePhone(String phoneNumber);
     }
 }

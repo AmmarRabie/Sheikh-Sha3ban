@@ -28,5 +28,8 @@ public class ValidationUtils {
     }
 
 
+    public static boolean phoneValidator(String phone) {
+        return phone.length() == 11;
+    }
 }
 

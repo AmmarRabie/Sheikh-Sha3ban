@@ -118,4 +118,9 @@ public class MockRepo implements DataService {
     public void forget(Listen listener) {
 
     }
+
+    @Override
+    public void updatePhoneNumber(String userId, String phoneNumber, Update callback) {
+
+    }
 }

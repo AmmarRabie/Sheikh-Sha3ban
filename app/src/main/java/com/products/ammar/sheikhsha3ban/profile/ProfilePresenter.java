@@ -83,17 +83,9 @@ class ProfilePresenter implements ProfileContract.Actions {
             mView.showErrorMessage("This name is invalid");
             return;
         }
-        mDataSource.updateUserName(mCurrentUser.getUserId(), newName, new DataService.Update() {
-            @Override
-            public void onUpdateSuccess() {
-                mView.showOnChangeNameSuccess();
-            }
+        mDataSource.updateUserName(mCurrentUser.getUserId(), newName, null);
+        mView.showOnChangeNameSuccess();
 
-            @Override
-            public void onError(String cause) {
-                mView.showErrorMessage(cause);
-            }
-        });
     }
 
     @Override
@@ -121,5 +113,15 @@ class ProfilePresenter implements ProfileContract.Actions {
                         mView.hideProgressIndicator();
                     }
                 });
+    }
+
+    @Override
+    public void changePhone(String phoneNumber) {
+        if (!ValidationUtils.phoneValidator(phoneNumber)){
+            mView.showErrorMessage("Phone number is invalid");
+            return;
+        }
+        mDataSource.updatePhoneNumber(mCurrentUser.getUserId(), phoneNumber, null);
+        mView.showOnChangePhoneSuccess();
     }
 }
