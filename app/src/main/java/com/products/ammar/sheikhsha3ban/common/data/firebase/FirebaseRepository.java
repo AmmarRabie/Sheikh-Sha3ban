@@ -87,7 +87,7 @@ public class FirebaseRepository extends FirebaseRepoHelper {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 callback.onError(databaseError.getMessage());
             }
         });
@@ -140,7 +140,7 @@ public class FirebaseRepository extends FirebaseRepoHelper {
         final ArrayList<AdviceModel> advices = new ArrayList<>();
         getReference(AdviceEntry.KEY_THIS)
                 .orderByChild(AdviceEntry.KEY_DATE)
-                .limitToFirst(5)
+                .limitToFirst(50)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot advicesSnapshot) {

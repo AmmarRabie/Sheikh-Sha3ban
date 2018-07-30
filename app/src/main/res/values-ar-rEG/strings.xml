@@ -37,4 +37,5 @@
     <string name="forget_password">نسيت كلمة المرور؟</string>
     <string name="name">الاسم</string>
     <string name="phone">رقم التليفون</string>
+    <string name="today">اليوم</string>
 </resources>

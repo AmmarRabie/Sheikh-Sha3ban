@@ -2,8 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:text="@string/today"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:gravity="end"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:layout_height="wrap_content"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adminAttendanceFrag_list"
         android:layout_width="match_parent"

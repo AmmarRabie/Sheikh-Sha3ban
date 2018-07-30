@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.products.ammar.sheikhsha3ban.R;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserDayAttendanceModel;
 import com.products.ammar.sheikhsha3ban.common.data.model.UserModel;
+import com.products.ammar.sheikhsha3ban.common.util.DateUtil;
 import com.products.ammar.sheikhsha3ban.common.util.ProfileImageUtil;
 
 import java.util.ArrayList;
@@ -79,19 +79,20 @@ public class UserAttendanceAdapter extends RecyclerView.Adapter<UserAttendanceAd
             final UserDayAttendanceModel currUser = mUsers.get(position);
 
             nameView.setText(currUser.getName());
-            attendanceView.setChecked(currUser.getMonthAttendance().getAttendance(1));
+            attendanceView.setChecked(currUser.getMonthAttendance().getAttendance(DateUtil.getCurrentDay()));
             ProfileImageUtil.setProfileImage(currUser.getProfileImage(), profileImageView, 70);
 
 
             if (mItemClickListener == null)
                 return;
 
-            attendanceView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            attendanceView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    mItemClickListener.onAttendanceChange(compoundButton, currUser, position, b);
+                public void onClick(View view) {
+                    mItemClickListener.onAttendanceChange(view, currUser, position, attendanceView.isChecked());
                 }
             });
+
             nameView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

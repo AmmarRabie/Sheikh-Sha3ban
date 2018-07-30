@@ -43,5 +43,6 @@
     <string name="forget_password">Forget Password?</string>
     <string name="name">Name</string>
     <string name="phone">phone</string>
+    <string name="today">today</string>
 
 </resources>
